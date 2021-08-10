@@ -22,7 +22,7 @@ public class UserDaoImpl implements UserDao{
     public void add(User user) { entityManager.persist(user); }
 
     @Override
-    public void delete(User user) { entityManager.remove(user); }
+    public void delete(User user) { entityManager.remove(entityManager.contains(user) ? user : entityManager.merge(user)); }
 
     @Override
     public List<User> listUsers() {
