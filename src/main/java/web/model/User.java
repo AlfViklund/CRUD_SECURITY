@@ -7,6 +7,12 @@ import javax.persistence.*;
 public class User {
     public User() {}
 
+    public User(String firstName, String lastName, String email) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+    }
+
     public User(Long id, String firstName, String lastName, String email) {
         this.id = id;
         this.firstName = firstName;
@@ -16,12 +22,13 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
     @Column(name = "name")
     private String firstName;
 
-    @Column(name = "lastName")
+    @Column(name = "last_name")
     private String lastName;
 
     @Column(name = "email")

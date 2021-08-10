@@ -14,6 +14,7 @@ import java.util.List;
 @EnableTransactionManagement(proxyTargetClass = true)
 public class UserDaoImpl implements UserDao{
 
+
     @PersistenceContext
     private EntityManager entityManager;
 
