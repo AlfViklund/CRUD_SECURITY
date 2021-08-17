@@ -1,13 +1,16 @@
 package web.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import web.dao.UserDaoImpl;
 import web.model.User;
 
 import java.util.List;
 @Service
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Autowired
     private UserDaoImpl userDao;
@@ -26,4 +29,12 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public void update(User user) { userDao.update(user); }
+
+    @Override
+    public User getUserByName(String name) { return userDao.getUserByName(name); }
+
+    @Override
+    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
+        return getUserByName(s);
+    }
 }

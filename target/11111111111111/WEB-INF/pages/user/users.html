@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Users</title>
+    <div style="float: right">
+        <a th:href="@{/logout}">Logout</a>
+    </div>
 </head>
 <body>
 <br/>
@@ -18,13 +21,13 @@
     </tr>
     <tr th:each="user : ${users}">
         <td th:utext="${user.getId()}">Id</td>
-        <td th:utext="${user.getFirstName()}">Name</td>
+        <td th:utext="${user.getName()}">Name</td>
         <td th:utext="${user.getLastName()}">Lastname</td>
-        <td th:utext="${user.getEmail()}">Email</td>
-        <td><form th:action="@{/users/{id}/edit(id=${user.getId()})}">
+        <td th:utext="${user.getPassword()}">Email</td>
+        <td><form th:action="@{/admin/users/{id}/edit(id=${user.getId()})}">
             <input type="submit" value="Edit"/>
         </form></td>
-        <td><form th:method="DELETE" th:action="@{/users/{id}(id=${user.getId()})}">
+        <td><form th:method="DELETE" th:action="@{/admin/users/{id}(id=${user.getId()})}">
             <input type="submit" value="Delete"/>
         </form></td>
     </tr>
@@ -32,6 +35,6 @@
 <br/>
 <hr/>
 
-<a href="/users/new">Create new user</a>
+<a href="/admin/users/new">Create new user</a>
 </body>
 </html>

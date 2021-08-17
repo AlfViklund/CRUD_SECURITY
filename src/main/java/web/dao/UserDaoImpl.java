@@ -6,6 +6,7 @@ import web.model.User;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import java.util.List;
 
@@ -37,5 +38,13 @@ public class UserDaoImpl implements UserDao{
     @Override
     public void update(User user) {
         entityManager.merge(user);
+    }
+
+    @Override
+    public User getUserByName(String name) {
+        TypedQuery<User> query = entityManager.createQuery(
+                "SELECT u FROM User u WHERE u.name = :name", User.class);
+        return query.setParameter("name", name)
+                .getSingleResult();
     }
 }

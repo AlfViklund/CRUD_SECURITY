@@ -3,6 +3,7 @@ package web.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import web.Initializer;
 import web.dao.UserDaoImpl;
@@ -10,8 +11,11 @@ import web.model.User;
 import web.service.UserService;
 import web.service.UserServiceImpl;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Controller
-@RequestMapping("/users")
+@RequestMapping("/admin/users")
 public class UserController {
 
     @Autowired
@@ -39,7 +43,7 @@ public class UserController {
     @PostMapping()
     public String create(@ModelAttribute("user") User user) {
         userService.add(user);
-        return "redirect:/users";
+        return "redirect:/admin/users";
     }
 
     @GetMapping("/{id}/edit")
@@ -51,13 +55,13 @@ public class UserController {
     @PatchMapping("/{id}")
     public String update(@ModelAttribute("user") User user) {
         userService.update(user);
-        return "redirect:/users";
+        return "redirect:/admin/users";
     }
 
     @DeleteMapping("/{id}")
     public String delete(@ModelAttribute("user") User user) {
         userService.delete(user);
-        return "redirect:/users";
+        return "redirect:/admin/users";
     }
 
 }
