@@ -13,7 +13,7 @@
         <th>Id</th>
         <th>Name</th>
         <th>Lastname</th>
-        <th>Email</th>
+        <th>Password</th>
         <th>Edit</th>
         <th>Delete</th>
     </tr>
@@ -21,7 +21,7 @@
         <td th:utext="${user.getId()}">Id</td>
         <td th:utext="${user.getName()}">Name</td>
         <td th:utext="${user.getLastName()}">Lastname</td>
-        <td th:utext="${user.getPassword()}">Email</td>
+        <td th:utext="${user.getPassword()}">Password</td>
         <td><form th:action="@{/admin/users/{id}/edit(id=${user.getId()})}">
             <input type="submit" value="Edit"/>
         </form></td>

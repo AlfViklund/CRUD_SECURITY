@@ -6,6 +6,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import web.dao.UserDaoImpl;
+import web.model.Role;
 import web.model.User;
 
 import java.util.List;
@@ -14,9 +15,24 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Autowired
     private UserDaoImpl userDao;
+    @Autowired
+    private RoleServiceImpl roleService;
 
     @Override
     public void add(User user) { userDao.add(user); }
+
+    @Override
+    public void addUserWithRole(User user, String roleName) {
+        if(getUserByName(user.getName()) == null) {
+            add(user);
+            user = getUserByName(user.getName());
+        }
+        if(roleService.findRole(roleName) == null) {
+            roleService.saveRole(new Role(roleName));
+        }
+        user.addRoles(roleService.findRole(roleName));
+        update(user);
+    }
 
     @Override
     public void delete(User user) { userDao.delete(user); }

@@ -1,7 +1,10 @@
 package web.model;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
 import java.util.*;
@@ -16,7 +19,7 @@ public class User implements UserDetails {
     private String lastName;
     private String password;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     //@JoinTable
     private Set<Role> roles = new HashSet<>();
 
@@ -38,8 +41,8 @@ public class User implements UserDetails {
     }
 
     public Set<Role> getRoles() { return roles; }
-
     public void setRoles(Set<Role> roles) { this.roles = roles; }
+    public void addRoles(Role role) { this.roles.add(role); }
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
@@ -52,14 +55,14 @@ public class User implements UserDetails {
 
     @Override
     public String getPassword() { return password; }
-    public void setPassword(String email) { this.password = email; }
+    public void setPassword(String password) { this.password = password; }
 
     @Override
     public String toString() {
         return "id: " + id +
                 " name: " + name +
                 " last name: " + lastName +
-                " email: " + password;
+                " password: " + password;
     }
 
     @Override
@@ -79,4 +82,5 @@ public class User implements UserDetails {
 
     @Override
     public boolean isEnabled() { return true; }
+
 }

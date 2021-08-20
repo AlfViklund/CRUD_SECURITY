@@ -1,12 +1,12 @@
 package web.dao;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import web.model.User;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
+import javax.persistence.*;
 import javax.transaction.Transactional;
 import java.util.List;
 
@@ -15,7 +15,6 @@ import java.util.List;
 @EnableTransactionManagement(proxyTargetClass = true)
 public class UserDaoImpl implements UserDao{
 
-
     @PersistenceContext
     private EntityManager entityManager;
 
@@ -23,7 +22,13 @@ public class UserDaoImpl implements UserDao{
     public void add(User user) { entityManager.persist(user); }
 
     @Override
-    public void delete(User user) { entityManager.remove(entityManager.contains(user) ? user : entityManager.merge(user)); }
+    @Transactional
+    public void delete(User user) {
+        //entityManager.remove(getUserById(user.getId()));
+        entityManager.createQuery("delete User where id = :id").
+                setParameter("id", user.getId()).
+                executeUpdate();
+        }
 
     @Override
     public List<User> listUsers() {
@@ -42,9 +47,11 @@ public class UserDaoImpl implements UserDao{
 
     @Override
     public User getUserByName(String name) {
-        TypedQuery<User> query = entityManager.createQuery(
-                "SELECT u FROM User u WHERE u.name = :name", User.class);
-        return query.setParameter("name", name)
-                .getSingleResult();
+        try {
+            return entityManager.createQuery("SELECT u FROM User u WHERE u.name = :name", User.class).
+                    setParameter("name", name).getSingleResult();
+        }catch (NoResultException ex) {
+        }
+        return null;
     }
 }

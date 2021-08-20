@@ -7,7 +7,9 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import web.Initializer;
 import web.dao.UserDaoImpl;
+import web.model.Role;
 import web.model.User;
+import web.service.RoleServiceImpl;
 import web.service.UserService;
 import web.service.UserServiceImpl;
 
@@ -20,6 +22,10 @@ public class UserController {
 
     @Autowired
     private UserServiceImpl userService;
+
+    @Autowired
+    private RoleServiceImpl roleService;
+
     @Autowired
     private Initializer initializer;
 
@@ -41,8 +47,8 @@ public class UserController {
     }
 
     @PostMapping()
-    public String create(@ModelAttribute("user") User user) {
-        userService.add(user);
+    public String create(@ModelAttribute("user") User user, @RequestParam("role") String roleName) {
+        userService.addUserWithRole(user, roleName);
         return "redirect:/admin/users";
     }
 
@@ -53,8 +59,9 @@ public class UserController {
     }
 
     @PatchMapping("/{id}")
-    public String update(@ModelAttribute("user") User user) {
+    public String update(@ModelAttribute("user") User user, @RequestParam("role") String roleName) {
         userService.update(user);
+        userService.addUserWithRole(user, roleName);
         return "redirect:/admin/users";
     }
 
