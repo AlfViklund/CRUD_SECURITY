@@ -23,14 +23,15 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public void addUserWithRole(User user, String roleName) {
+        Role role = roleService.findRole(roleName);
+
         if(getUserByName(user.getName()) == null) {
             add(user);
             user = getUserByName(user.getName());
         }
-        if(roleService.findRole(roleName) == null) {
-            roleService.saveRole(new Role(roleName));
-        }
-        user.addRoles(roleService.findRole(roleName));
+        if(role == null) { role = roleService.saveRole(new Role(roleName)); }
+
+        user.addRoles(role);
         update(user);
     }
 

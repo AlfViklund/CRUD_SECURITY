@@ -60,7 +60,7 @@ public class UserController {
 
     @PatchMapping("/{id}")
     public String update(@ModelAttribute("user") User user, @RequestParam("role") String roleName) {
-        userService.update(user);
+        //userService.update(user);
         userService.addUserWithRole(user, roleName);
         return "redirect:/admin/users";
     }

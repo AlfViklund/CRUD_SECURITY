@@ -17,9 +17,14 @@ public class UserDaoImpl implements UserDao{
 
     @PersistenceContext
     private EntityManager entityManager;
+    @Autowired
+    private PasswordEncoder encoder;
 
     @Override
-    public void add(User user) { entityManager.persist(user); }
+    public void add(User user) {
+        user.setPassword(encoder.encode(user.getPassword()));
+        entityManager.persist(user);
+    }
 
     @Override
     @Transactional
