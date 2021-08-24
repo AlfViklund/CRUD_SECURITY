@@ -20,14 +20,13 @@ import java.util.List;
 @RequestMapping("/admin/users")
 public class UserController {
 
-    @Autowired
-    private UserServiceImpl userService;
+    private final UserServiceImpl userService;
+    private final RoleServiceImpl roleService;
 
-    @Autowired
-    private RoleServiceImpl roleService;
-
-    @Autowired
-    private Initializer initializer;
+    public UserController(UserServiceImpl userService, RoleServiceImpl roleService) {
+        this.userService = userService;
+        this.roleService = roleService;
+    }
 
     @GetMapping()
     public String users(Model model) {
@@ -42,7 +41,8 @@ public class UserController {
     }
 
     @GetMapping("/new")
-    public String newUser(@ModelAttribute("user") User user) {
+    public String newUser(@ModelAttribute("user") User user, Model model) {
+        model.addAttribute("rolesList", roleService.getRolesList());
         return "user/new";
     }
 
@@ -55,6 +55,7 @@ public class UserController {
     @GetMapping("/{id}/edit")
     public String edit(@PathVariable("id") int id, Model model) {
         model.addAttribute("user", userService.getUserById(id));
+        model.addAttribute("rolesList", roleService.getRolesList());
         return "user/edit";
     }
 

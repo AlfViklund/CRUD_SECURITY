@@ -17,9 +17,6 @@ import java.security.Principal;
 
 @Component
 public class LoginSuccessHandler implements AuthenticationSuccessHandler {
-    @Autowired
-    private UserServiceImpl userService;
-
     @Override
     public void onAuthenticationSuccess(HttpServletRequest httpServletRequest,
                                         HttpServletResponse httpServletResponse,

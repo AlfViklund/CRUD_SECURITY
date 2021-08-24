@@ -2,6 +2,8 @@ package web.service;
 
 import web.model.Role;
 
+import java.util.List;
+
 public interface RoleService {
     Role saveRole(Role role);
 
@@ -10,4 +12,6 @@ public interface RoleService {
     void updateRole(Role role);
 
     void deleteRole(Role role);
+
+    List<Role> getRolesList();
 }
