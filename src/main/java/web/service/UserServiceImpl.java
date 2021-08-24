@@ -13,15 +13,14 @@ import web.model.User;
 import java.util.List;
 @Service
 public class UserServiceImpl implements UserService, UserDetailsService {
-
     private final UserDaoImpl userDao;
     private final RoleServiceImpl roleService;
-    private final PasswordEncoder encoder;
+    @Autowired
+    private PasswordEncoder encoder; // если добавить в конструктов выдает "Requested bean is currently in creation: Is there an unresolvable circular reference?"
 
-    public UserServiceImpl(RoleServiceImpl roleService, PasswordEncoder encoder, UserDaoImpl userDao) {
-        this.roleService = roleService;
-        this.encoder = encoder;
+    public UserServiceImpl(UserDaoImpl userDao, RoleServiceImpl roleService) {
         this.userDao = userDao;
+        this.roleService = roleService;
     }
 
     @Override

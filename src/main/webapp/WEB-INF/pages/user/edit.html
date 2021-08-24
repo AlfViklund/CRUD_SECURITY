@@ -17,7 +17,7 @@
     <input type="text" th:field="*{password}" id="password">
 
     <label for="role">Choose role</label>
-    <select th:multiple="multiple" th:size="${rolesList.size()}" name="role" id="role">
+    <select th:size="${rolesList.size()}" name="role" id="role">
         <option th:each="role : ${rolesList}"
                 th:value="${role.getRole()}"
                 th:text="${role.getRole().substring(5)}">
